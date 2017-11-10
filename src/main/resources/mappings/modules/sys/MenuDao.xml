@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.sys.dao.MenuDao">
-	
+	<!-- 定义menuColumns字段 -->
 	<sql id="menuColumns">
 		a.id,
 		a.parent_id AS "parent.id",
@@ -52,10 +52,10 @@
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds}
 		ORDER BY a.sort
 	</select>
-	
+	<!-- 通過user id 查詢所有的權限和菜單 -->
 	<select id="findByUserId" resultType="Menu">
 		SELECT DISTINCT
-			<include refid="menuColumns"/>
+			<include refid="menuColumns"/><!-- 复用其他sql -->
 		FROM sys_menu a
 		LEFT JOIN sys_menu p ON p.id = a.parent_id
 		JOIN sys_role_menu rm ON rm.menu_id = a.id

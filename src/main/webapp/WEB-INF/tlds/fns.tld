@@ -197,6 +197,7 @@
     <function-signature>boolean endsWith(java.lang.CharSequence, java.lang.CharSequence)</function-signature>
     <example>${fns:endsWith(str,suffix)}</example> 
   </function>
+  
   <function>
     <description>缩写字符串，超过最大宽度用“...”表示</description>
     <name>abbr</name>

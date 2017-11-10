@@ -38,9 +38,10 @@ public class MenuController extends BaseController {
 
 	@Autowired
 	private SystemService systemService;
-	
+	//意思是从前面的 Model 中提取对应名称的属性
 	@ModelAttribute("menu")
 	public Menu get(@RequestParam(required=false) String id) {
+		//当id为非空非nun 非空格
 		if (StringUtils.isNotBlank(id)){
 			return systemService.getMenu(id);
 		}else{
@@ -57,7 +58,13 @@ public class MenuController extends BaseController {
         model.addAttribute("list", list);
 		return "modules/sys/menuList";
 	}
-
+	
+	/**
+	 * 菜单   查看权限   sys:menu:view 
+	 * @param menu
+	 * @param model
+	 * @return menuForm
+	 */
 	@RequiresPermissions("sys:menu:view")
 	@RequestMapping(value = "form")
 	public String form(Menu menu, Model model) {
@@ -78,41 +85,66 @@ public class MenuController extends BaseController {
 		return "modules/sys/menuForm";
 	}
 	
+	/**
+	 * 保存修改菜单
+	 * sys:menu:edit
+	 * 修改菜单权限
+	 * @param menu
+	 * @param model
+	 * @param redirectAttributes ：重定向
+	 * @return
+	 */
 	@RequiresPermissions("sys:menu:edit")
 	@RequestMapping(value = "save")
 	public String save(Menu menu, Model model, RedirectAttributes redirectAttributes) {
+		//超级管理员
 		if(!UserUtils.getUser().isAdmin()){
 			addMessage(redirectAttributes, "越权操作，只有超级管理员才能添加或修改数据！");
 			return "redirect:" + adminPath + "/sys/role/?repage";
 		}
+		//演示模式
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/menu/";
 		}
+		//服务端参数有效性验证
 		if (!beanValidator(model, menu)){
 			return form(menu, model);
 		}
+		//保存
 		systemService.saveMenu(menu);
 		addMessage(redirectAttributes, "保存菜单'" + menu.getName() + "'成功");
 		return "redirect:" + adminPath + "/sys/menu/";
 	}
 	
+	/**
+	 * 删除菜单
+	 * 
+	 * @param menu
+	 * @param redirectAttributes
+	 * @return
+	 */
 	@RequiresPermissions("sys:menu:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Menu menu, RedirectAttributes redirectAttributes) {
+		//演示模式
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/menu/";
 		}
-//		if (Menu.isRoot(id)){
-//			addMessage(redirectAttributes, "删除菜单失败, 不允许删除顶级菜单或编号为空");
-//		}else{
+	//	if (Menu.isRoot(id)){
+	//		addMessage(redirectAttributes, "删除菜单失败, 不允许删除顶级菜单或编号为空");
+	//	}else{
 			systemService.deleteMenu(menu);
 			addMessage(redirectAttributes, "删除菜单成功");
-//		}
+	//		}
 		return "redirect:" + adminPath + "/sys/menu/";
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	@RequiresPermissions("user")
 	@RequestMapping(value = "tree")
 	public String tree() {

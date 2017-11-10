@@ -3,7 +3,11 @@ package com.thinkgem.jeesite.common.security.shiro.session;
 import java.util.Collection;
 //在shiro—core下
 import org.apache.shiro.session.Session;
-
+/**
+ * 获取活动会话信息
+ * @author Json
+ *
+ */
 public interface SessionDAO extends org.apache.shiro.session.mgt.eis.SessionDAO {
 
 	/**

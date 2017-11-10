@@ -128,7 +128,13 @@ public class Menu extends DataEntity<Menu> {
 	public String getParentId() {
 		return parent != null && parent.getId() != null ? parent.getId() : "0";
 	}
-
+	/**
+	 *  排序
+	 * @param list
+	 * @param sourcelist
+	 * @param parentId
+	 * @param cascade
+	 */
 	@JsonIgnore
 	public static void sortList(List<Menu> list, List<Menu> sourcelist, String parentId, boolean cascade){
 		for (int i=0; i<sourcelist.size(); i++){

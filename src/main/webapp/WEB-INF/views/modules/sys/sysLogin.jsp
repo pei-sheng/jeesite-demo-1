@@ -3,8 +3,10 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>${fns:getConfig('productName')} 登录</title>
+	<!-- 1.设置网页title -->
+	<title>${fns:getConfig('productName')} 公安端登录</title>
 	<meta name="decorator" content="blank"/>
+	<!-- css 格式设置 -->
 	<style type="text/css">
       html,body,table{background-color:#f5f5f5;width:100%;text-align:center;}.form-signin-heading{font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:36px;margin-bottom:20px;color:#0663a2;}
       .form-signin{position:relative;text-align:left;width:300px;padding:25px 29px 29px;margin:0 auto 20px;background-color:#fff;border:1px solid #e5e5e5;
@@ -16,6 +18,7 @@
       .header{height:80px;padding-top:20px;} .alert{position:relative;width:300px;margin:0 auto;*padding-bottom:0px;}
       label.error{background:none;width:270px;font-weight:normal;color:inherit;margin:0;}
     </style>
+    <!-- 1. -->
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#loginForm").validate({
@@ -51,6 +54,8 @@
 		<label class="input-label" for="username">登录名</label>
 		<input type="text" id="username" name="username" class="input-block-level required" value="${username}">
 		<label class="input-label" for="password">密码</label>
+		<!--c:if 标签必须要有test属性，当test中的表达式结果为true时，则会执行本体内容；如果为false，则不会执行。 
+		isValidateCodeLogin是否是验证码登录-->
 		<input type="password" id="password" name="password" class="input-block-level required">
 		<c:if test="${isValidateCodeLogin}"><div class="validateCode">
 			<label class="input-label mid" for="validateCode">验证码</label>
@@ -59,16 +64,19 @@
 		<label for="mobile" title="手机登录"><input type="checkbox" id="mobileLogin" name="mobileLogin" ${mobileLogin ? 'checked' : ''}/></label> --%>
 		<input class="btn btn-large btn-primary" type="submit" value="登 录"/>&nbsp;&nbsp;
 		<label for="rememberMe" title="下次不需要再登录"><input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}/> 记住我（公共场所慎用）</label>
+		<!-- 主题设置， 初始默认主题 -->
 		<div id="themeSwitch" class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">${fns:getDictLabel(cookie.theme.value,'theme','默认主题')}<b class="caret"></b></a>
 			<ul class="dropdown-menu">
+			<!-- JSTL 标签   -->
 			  <c:forEach items="${fns:getDictList('theme')}" var="dict"><li><a href="#" onclick="location='${pageContext.request.contextPath}/theme/${dict.value}?url='+location.href">${dict.label}</a></li></c:forEach>
 			</ul>
 			<!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
 		</div>
 	</form>
+	<!--版权声明   jeesite.properties 文档配置-->
 	<div class="footer">
-		Copyright &copy; 2012-${fns:getConfig('copyrightYear')} <a href="${pageContext.request.contextPath}${fns:getFrontPath()}">${fns:getConfig('productName')}</a> - Powered By <a href="http://jeesite.com" target="_blank">JeeSite</a> ${fns:getConfig('version')} 
+		Copyright &copy; 2017-${fns:getConfig('copyrightYear')} <a href="${pageContext.request.contextPath}${fns:getFrontPath()}">${fns:getConfig('productName')}</a> - Powered By <a href="http://jeesite.com" target="_blank">JeeSite</a> ${fns:getConfig('version')} 
 	</div>
 	<script src="${ctxStatic}/flash/zoom.min.js" type="text/javascript"></script>
 </body>

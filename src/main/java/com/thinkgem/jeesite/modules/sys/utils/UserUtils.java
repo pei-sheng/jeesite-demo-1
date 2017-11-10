@@ -159,16 +159,19 @@ public class UserUtils {
 	 */
 	public static List<Menu> getMenuList(){
 		@SuppressWarnings("unchecked")
+		//1.获取缓存menu
 		List<Menu> menuList = (List<Menu>)getCache(CACHE_MENU_LIST);
+		//2.缓存没有就获取当前用户
 		if (menuList == null){
 			User user = getUser();
-			if (user.isAdmin()){
+			if (user.isAdmin()){//是否是管理员用户
 				menuList = menuDao.findAllList(new Menu());
-			}else{
+			}else{//不是管理员用户
 				Menu m = new Menu();
 				m.setUserId(user.getId());
 				menuList = menuDao.findByUserId(m);
 			}
+			//将用户所具有权限的菜单存入Cache
 			putCache(CACHE_MENU_LIST, menuList);
 		}
 		return menuList;

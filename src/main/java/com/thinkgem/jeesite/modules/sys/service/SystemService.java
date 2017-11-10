@@ -328,15 +328,17 @@ public class SystemService extends BaseService implements InitializingBean {
 	}
 
 	//-- Menu Service --//
-	
+	//1.同过id获取menu
 	public Menu getMenu(String id) {
 		return menuDao.get(id);
 	}
-
+	
+	//2.获取全部menu
 	public List<Menu> findAllMenu(){
 		return UserUtils.getMenuList();
 	}
 	
+	//3.保存菜单
 	@Transactional(readOnly = false)
 	public void saveMenu(Menu menu) {
 		
@@ -373,7 +375,8 @@ public class SystemService extends BaseService implements InitializingBean {
 		// 清除日志相关缓存
 		CacheUtils.remove(LogUtils.CACHE_MENU_NAME_PATH_MAP);
 	}
-
+	
+	//4.更新菜单
 	@Transactional(readOnly = false)
 	public void updateMenuSort(Menu menu) {
 		menuDao.updateSort(menu);
@@ -384,7 +387,8 @@ public class SystemService extends BaseService implements InitializingBean {
 		// 清除日志相关缓存
 		CacheUtils.remove(LogUtils.CACHE_MENU_NAME_PATH_MAP);
 	}
-
+	
+	//5.删除菜单
 	@Transactional(readOnly = false)
 	public void deleteMenu(Menu menu) {
 		menuDao.delete(menu);

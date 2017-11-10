@@ -18,7 +18,7 @@ import com.thinkgem.jeesite.modules.sys.entity.Menu;
 public interface MenuDao extends CrudDao<Menu> {
 
 	public List<Menu> findByParentIdsLike(Menu menu);
-
+	//
 	public List<Menu> findByUserId(Menu menu);
 	
 	public int updateParentIds(Menu menu);
